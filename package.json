@@ -1,0 +1,26 @@
+{
+  "name": "nest-learn",
+  "version": "1.0.0",
+  "description": "// Module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^10.3.9",
+    "@nestjs/core": "^10.3.9",
+    "@nestjs/platform-express": "^10.3.9",
+    "cli-color": "^2.0.4",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}
