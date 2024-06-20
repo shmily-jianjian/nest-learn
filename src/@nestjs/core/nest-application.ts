@@ -27,7 +27,9 @@ export class NestApplication {
         if(httpMethod) {
           const routePath = path.posix.join('/', prefix, pathMetadata)
           this.app[httpMethod.toLowerCase()](routePath, async(req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
-            const result = await method.call(controller)
+            // 解析参数
+            const args = this.resolveparams(controller, methodName, req, res, next)
+            const result = await method.call(controller, ...args)
             res.send(result) 
           })
           Logger.log(`Mapped {${routePath}, ${httpMethod}} route`, 'RouterExplorer');
@@ -35,6 +37,20 @@ export class NestApplication {
       }
     }
     Logger.log('Nest application successfully started', 'NestApplication');
+  }
+
+  private resolveparams(instance: any, methodName: string, req: ExpressRequest, res: ExpressResponse, next: NextFunction) {
+    const paramsMetadata = Reflect.getMetadata(`params${methodName}`, instance, methodName) || []
+    return paramsMetadata.sort((a: any, b: any) => a.index - b.index).map((param: any) => {
+      const {key} = param;
+      switch (key) {
+        case 'Request':
+        case 'Req':
+          return req;
+        default:
+          return null;
+      }
+    });
   }
 
   async listen(port: number) {
